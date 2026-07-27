@@ -1,0 +1,7 @@
+{
+  "name": "OpenCart API Testing",
+  "type": "local",
+  "reportUrl": "https://github.com/Sti11stream-ink/opencart-api-test",
+  "buildName": "OpenCart API Tests",
+  "buildOrder": 1
+}
