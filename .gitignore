@@ -1,16 +1,16 @@
-# 虚拟环境
-.venv/
-
-# allure 测试报告
-allure-results/
-allure-report/
-reports/
-
-# pytest 缓存
-.pytest_cache/
+# 缓存文件
 __pycache__/
+.pytest_cache/
 *.pyc
 
-# 系统文件
-Thumbs.db
-.DS_Store
+# 虚拟环境
+.venv/
+venv/
+
+# Allure 报告（如果不想提交到仓库）
+# reports/allure-report/
+# reports/allure-results/
+
+# IDE
+.vscode/
+.idea/
