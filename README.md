@@ -83,16 +83,17 @@ run_tests.bat
 测试账号：testuser01@demo.local / Test@123456
 
 ## 🔗 相关链接
-OpenCart 官网
 
-Allure 报告
-
-requests 文档
+- [OpenCart 官网](https://www.opencart.com)
+- [Allure 报告](https://allurereport.org)
+- [requests 文档](https://docs.python-requests.org)
+- [pytest 文档](https://docs.pytest.org)
+- [GitHub 仓库](https://github.com/StillStream-ink/opencart-api-test)
 
 ## 📝 学习笔记
-接口测试学习笔记
 
-接口测试报告
+- [接口测试学习笔记](./docs/学习笔记.md)
+- [接口测试报告](./docs/接口测试报告.md)
 
 ## 📝 问题反馈
 如有问题或建议，欢迎提 Issue。
