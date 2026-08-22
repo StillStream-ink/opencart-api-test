@@ -1,4 +1,5 @@
 import requests
+import os
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
@@ -6,7 +7,7 @@ from urllib3.util.retry import Retry
 class APIClient:
     """OpenCart API 统一客户端，管理 Session 和 Cookie"""
 
-    BASE_URL = "http://127.0.0.1/opencart"
+    BASE_URL = os.getenv("OPENCART_BASE_URL", "http://127.0.0.1/opencart")
 
     def __init__(self):
         self.session = requests.Session()

@@ -1,3 +1,16 @@
+import os
+
+# ==================== 服务器配置 ====================
+BASE_URL = os.getenv("OPENCART_BASE_URL", "http://127.0.0.1/opencart")
+
+
+# ==================== 测试账号 ====================
+TEST_USER = {
+    "email": "testuser01@demo.local",
+    "password": "Test@123456"
+}
+
+
 # 测试账号
 TEST_USER = {
     "email": "testuser01@demo.local",
