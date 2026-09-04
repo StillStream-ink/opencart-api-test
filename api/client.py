@@ -8,6 +8,7 @@ class APIClient:
     """OpenCart API 统一客户端，管理 Session 和 Cookie"""
 
     BASE_URL = os.getenv("OPENCART_BASE_URL", "http://127.0.0.1/opencart")
+    DEFAULT_TIMEOUT = 10  # ✅ 新增：超时设置
 
     def __init__(self):
         self.session = requests.Session()
@@ -25,10 +26,12 @@ class APIClient:
 
     def get(self, path: str, params=None, **kwargs):
         url = f"{self.BASE_URL}{path}"
+        kwargs.setdefault("timeout", self.DEFAULT_TIMEOUT)  # ✅ 新增
         return self.session.get(url, params=params, **kwargs)
 
     def post(self, path: str, data=None, **kwargs):
         url = f"{self.BASE_URL}{path}"
+        kwargs.setdefault("timeout", self.DEFAULT_TIMEOUT)  # ✅ 新增
         return self.session.post(url, data=data, **kwargs)
 
     def set_cookie(self, name: str, value: str):
