@@ -2,7 +2,7 @@
 
 ## 📌 项目简介
 
-基于 **Python + requests + pytest + Allure** 实现的 OpenCart 电商系统接口自动化测试项目。
+基于 Python + requests + pytest + Allure 实现的 OpenCart 电商系统接口自动化测试项目，并集成 JMeter + Locust 双工具性能压测与飞书自动通知能力。
 
 采用 **数据驱动 + API 层封装 + Fixture 依赖注入** 的分层架构，覆盖商品浏览、购物车、结算等核心业务接口。
 
@@ -20,16 +20,24 @@ opencart_api_test/
 │   ├── product_api.py      # 商品接口（详情/列表/搜索）
 │   └── cart_api.py         # 购物车接口（加购/查看）
 ├── tests/                  # 测试用例层（只做断言，不直接发请求）
-│   ├── test_product.py     # 商品浏览接口测试（3 条）
-│   ├── test_cart.py        # 购物车接口测试（2 条）
+│   ├── test_product.py     # 商品浏览接口测试
+│   ├── test_cart.py        # 购物车接口测试
 │   └── test_checkout.py    # 结算接口测试（已跳过，由 UI 覆盖）
 ├── data/                   # 测试数据中心
 │   └── test_data.py        # 商品/分类/账号等测试数据
-├── reports/                # 测试报告输出
+├── jmeter/                 # JMeter 压测脚本（新增）
+│   ├── opencart_category_50vu.jmx
+│   └── opencart_category_100vu.jmx
+├── reports/                # Locust 压测报告（新增）
+├── images/                 # 文档截图
 ├── conftest.py             # Pytest 全局 Fixture（登录态管理）
+├── locustfile.py           # Locust 压测脚本（新增）
+├── send_feishu_report.py   # 飞书通知推送脚本（新增）
 ├── pytest.ini              # Pytest 配置文件
 ├── requirements.txt        # Python 依赖
-├── run_tests.bat           # Windows 一键运行脚本（含 Allure 报告）
+├── run_tests.bat           # 仅运行接口自动化
+├── run_jmeter_auto.bat     # 一键运行 JMeter 压测（新增）
+├── run_all.bat             # 全家桶：接口 + Locust + JMeter + 飞书（新增）
 └── README.md
 ```
 
@@ -44,6 +52,8 @@ opencart_api_test/
 | pytest | 测试框架 | 7.4+ |
 | allure-pytest | 测试报告与用例分级 | 2.16+ |
 | pytest-html | HTML 测试报告 | 4.1+ |
+| Locust | 性能压测（代码化） | 2.20+ |
+| JMeter | 性能压测（梯度加压） | 5.6.3 |
 
 ---
 
@@ -105,6 +115,12 @@ BASE_URL = os.getenv("OPENCART_BASE_URL", "http://127.0.0.1/opencart")
 - **feature**：模块级（商品浏览 / 购物车 / 结算）
 - **story**：功能级（商品详情 / 加购 / 搜索）
 
+### 6. 性能压测 + 飞书通知（新增）
+
+- **JMeter**：50/100 并发梯度加压，生成 HTML 报告
+- **Locust**：15/25 并发代码化压测，生成 CSV 数据
+- **飞书通知**：测试完成后自动解析报告，推送结构化消息到飞书群，包含总请求数、失败率、平均响应时间、P95、吞吐量等关键指标
+
 ---
 
 ## 📊 测试覆盖
@@ -115,6 +131,15 @@ BASE_URL = os.getenv("OPENCART_BASE_URL", "http://127.0.0.1/opencart")
 | 购物车 | 2 | ✅ 全部通过 | 正常加购、获取购物车（依赖登录态） |
 | 结算 | 2 | ⏭️ 跳过 | 依赖复杂前端会话，由 UI 自动化覆盖 |
 | **合计** | **7** | **5 通过 / 2 跳过** | **通过率 100%** |
+
+### 性能压测（参考数据）
+
+| 工具 | 并发数 | 总请求数 | 失败率 | 平均响应时间 | P95 |
+|------|--------|---------|--------|-------------|-----|
+| JMeter | 50 | 103,620 | 0.00% | 25.03 ms | 110 ms |
+| JMeter | 100 | 109,068 | 0.00% | 47.69 ms | 264 ms |
+| Locust | 15 | 836 | 0 | 188.24 ms | — |
+| Locust | 25 | 1,355 | 0 | 198.46 ms | — |
 
 ---
 
@@ -165,6 +190,20 @@ allure serve ./reports/allure-results
 
 双击 `run_tests.bat` 即可执行全部测试并生成 Allure 报告（含历史趋势）。
 
+### 6. 运行 Locust 压测
+
+```bash
+locust -f locustfile.py --host=http://127.0.0.1/opencart --users 15 --spawn-rate 5 --run-time 2m --headless --csv=reports/locust_15user
+```
+### 7. 运行 JMeter 压测
+
+```bash
+jmeter -n -t jmeter/opencart_category_50vu.jmx -l jmeter/result_50vu.jtl -e -o jmeter/report_50vu -f
+```
+### 8. 一键运行全家桶
+
+双击 run_all.bat，自动顺序执行：接口自动化 → Locust → JMeter → 飞书通知。
+
 ---
 
 ## 📄 测试报告示例
@@ -188,7 +227,13 @@ allure serve ./reports/allure-results
 $env:OPENCART_BASE_URL="http://192.168.1.100:8080/opencart"
 pytest tests/ -v
 ```
+---
+## 📢 飞书通知配置
 
+1. 在飞书群聊中添加**自定义机器人**，获取 Webhook 地址
+2. 修改 `send_feishu_report.py` 中的 `FEISHU_WEBHOOK` 变量
+3. 运行 `python send_feishu_report.py` 测试通知是否正常发送
+   
 ---
 
 ## 📝 相关链接
@@ -197,6 +242,15 @@ pytest tests/ -v
 - [pytest 官方文档](https://docs.pytest.org)
 - [requests 官方文档](https://docs.python-requests.org)
 - [Allure Report](https://allurereport.org)
+- [Locust 官方文档](https://locust.io)
+- [JMeter 官方文档](https://jmeter.apache.org)
+
+---
+
+## 📄 系列文章
+
+- [接口自动化测试实战（pytest + Allure + 数据驱动）](https://juejin.cn/post/7679507799504142386)
+- [UI 自动化测试实战（Playwright + POM + 失败自动截图）](https://juejin.cn/post/7681688916479344686)
 
 ---
 
