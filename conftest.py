@@ -7,7 +7,7 @@ from data.test_data import TEST_USER
 def api_client():
     client = APIClient()
     client.post(
-        "/index.php?route=account/login.login",
+        "/index.php?route=account/login",
         data=TEST_USER
     )
     return client

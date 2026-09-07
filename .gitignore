@@ -1,16 +1,51 @@
-# 缓存文件
+# ========== Python ==========
 __pycache__/
 .pytest_cache/
 *.pyc
+*.pyo
+*.pyd
+*.so
+*.dylib
 
-# 虚拟环境
+# ========== 虚拟环境 ==========
 .venv/
-venv/git add .
+venv/
+ENV/
+env/
 
-# Allure 报告（如果不想提交到仓库）
-# reports/allure-report/
-# reports/allure-results/
+# ========== 测试报告 ==========
+# Allure
+allure-results/
+allure-report/
+reports/allure-report/
+reports/allure-results/
 
-# IDE
+# pytest-html
+report.html
+
+# Locust
+reports/*.csv
+reports/*.html
+reports/locust_*.csv
+
+# JMeter
+*.jtl
+*.jmx.bak
+jmeter/report_*/
+jmeter/*.jtl
+
+# ========== IDE ==========
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# ========== OS ==========
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========== 日志 ==========
+*.log
+run_15user/
+run_25user/
