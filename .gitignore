@@ -49,3 +49,9 @@ desktop.ini
 *.log
 run_15user/
 run_25user/
+shell/*.log
+
+# ========== Shell脚本产物：数据库备份 ==========
+# 只忽略备份目录下的产物，不影响项目其他位置可能存在的sql源码
+shell/db_backup/
+shell/db_backup/*.sql
