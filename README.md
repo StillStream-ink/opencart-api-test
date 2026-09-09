@@ -1,4 +1,3 @@
-
 # OpenCart API 接口自动化测试
 ## 📌 项目简介
 基于 Python + requests + pytest + Allure 实现的 OpenCart 电商系统全栈测试工程实践项目，覆盖**接口自动化、UI 自动化、性能压测、Shell 运维工具包**四大模块，并集成 JMeter + Locust 双工具性能压测与飞书自动通知能力。
