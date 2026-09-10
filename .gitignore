@@ -14,19 +14,17 @@ ENV/
 env/
 
 # ========== 测试报告 ==========
-# Allure
+# Allure（运行产物，不追踪）
 allure-results/
 allure-report/
 reports/allure-report/
 reports/allure-results/
 
-# pytest-html
+# pytest-html（运行产物，不追踪）
 report.html
 
-# Locust
-reports/*.csv
+# Locust（CSV 保留作为压测证据，只忽略 html）
 reports/*.html
-reports/locust_*.csv
 
 # JMeter
 *.jtl
