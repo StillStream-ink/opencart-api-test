@@ -9,8 +9,11 @@
 - **性能压测**：Locust + JMeter 双工具梯度并发压测，采集响应时间、TPS、失败率等核心指标
 - **Shell 运维工具包**：WSL2 环境下编写，包含独立功能脚本（巡检/数据库定时备份/日志轮转）与交互式一体化菜单工具 `opencart_toolkit.sh`
 
+
 > **测试环境**：OpenCart 4.x（本地 XAMPP 部署，Apache + MariaDB）
+> 
 > **测试地址**：http://127.0.0.1/opencart
+> 
 > **Shell 运行环境**：WSL2（Ubuntu）
 
 ---
