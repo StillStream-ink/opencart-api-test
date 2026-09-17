@@ -16,7 +16,7 @@
 ---
 ## 🏗️ 项目架构
 
-![项目架构图](docs/architecture.png)
+![项目架构图](images/architecture.png)
 ---
 
 ## 📁 项目结构
