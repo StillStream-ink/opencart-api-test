@@ -14,6 +14,10 @@
 > **Shell 运行环境**：WSL2（Ubuntu）
 
 ---
+## 🏗️ 项目架构
+
+![项目架构图](docs/architecture.png)
+---
 
 ## 📁 项目结构
 
